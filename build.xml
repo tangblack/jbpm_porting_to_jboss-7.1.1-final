@@ -397,9 +397,21 @@
     <copy file="${install.home}/db/persistence.xml"
           tofile="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/classes/META-INF/persistence.xml"
           overwrite="true" />
-    <copy file="${install.home}/db/ProcessInstanceInfo.hbm.xml"
-          tofile="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/classes/META-INF/ProcessInstanceInfo.hbm.xml"
+  	
+  	<!-- using JPA 2 -->
+  	<delete file="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/classes/META-INF/JBPMorm.xml"/>
+    <copy file="${install.home}/db/JBPMorm-JPA2.xml"
+          tofile="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/classes/META-INF/JBPMorm-JPA2.xml"
           overwrite="true" />
+    <!--<copy file="${install.home}/db/ProcessInstanceInfo.hbm.xml"
+          tofile="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/classes/META-INF/ProcessInstanceInfo.hbm.xml"
+          overwrite="true" />-->
+  	
+  	<!-- remove netty related libs as they don't deploy on as7 -->
+    <delete>
+      <fileset dir="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/lib/" includes="dom4j*.jar" />
+    </delete>
+  	
     <copy file="${install.home}/auth/users.properties"
           tofile="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/classes/users.properties"
           overwrite="true" />
@@ -620,7 +632,7 @@
     <unzip src="${install.home}/lib/jbpm-human-task-war-${jBPM.version}.war" dest="${install.home}/target/jbpm-human-task-war" />
   	<!-- remove netty related libs as they don't deploy on as7 -->
     <delete>
-      <fileset dir="${install.home}/target/jbpm-human-task-war/WEB-INF/lib/" includes="netty*.jar" />
+      <fileset dir="${install.home}/target/jbpm-human-task-war/WEB-INF/lib/" includes="netty*.jar,dom4j*.jar" />
     </delete>
   	<copy file="${install.home}/task-service/resources/war/web.xml" 
   	          tofile="${install.home}/target/jbpm-human-task-war/WEB-INF/web.xml" 
@@ -634,7 +646,7 @@
     <zip basedir="${install.home}/target/jbpm-human-task-war"
          destfile="${install.home}/target/jbpm-${jBPM.version}-human-task-war.war" />
     <copy file="${install.home}/target/jbpm-${jBPM.version}-human-task-war.war" 
-          tofile="${install.home}/target/jbpm-human-task-war.war" 
+          tofile="${install.home}/output/jbpm-human-task-war.war" 
           overwrite="true" />
   </target>	
 	
