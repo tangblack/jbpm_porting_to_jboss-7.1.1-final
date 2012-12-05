@@ -13,29 +13,33 @@
     <jta-data-source>java:jboss/datasources/jbpmDS</jta-data-source>
 	<mapping-file>META-INF/JBPMorm-JPA2.xml</mapping-file>       
 	<!-- This line MUST be commented and NOT active when using JPA 2:
-	<mapping-file>META-INF/JBPMorm.xml</mapping-file>
     <mapping-file>META-INF/ProcessInstanceInfo.hbm.xml</mapping-file>
 	-->
-
-    <class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
+    
+	<class>org.jbpm.persistence.processinstance.ProcessInstanceInfo</class>
     <class>org.drools.persistence.info.SessionInfo</class>
     <class>org.drools.persistence.info.WorkItemInfo</class>
-
+	
+	<!-- BAM -->
     <class>org.jbpm.process.audit.ProcessInstanceLog</class>
     <class>org.jbpm.process.audit.NodeInstanceLog</class>
     <class>org.jbpm.process.audit.VariableInstanceLog</class>
-
+	
+	
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
       <property name="hibernate.max_fetch_depth" value="3"/>
       <!-- hbm2ddl.auto MUST BE update! The console will otherwise overwrite the schema with each new thread -->
       <property name="hibernate.hbm2ddl.auto" value="update" />
       <property name="hibernate.show_sql" value="false" />
-
-      <!-- for AS7 -->
-      <property name="hibernate.transaction.manager_lookup_class" value="org.jbpm.integration.console.JBPMTransactionManager" />
-      <!-- for AS5 -->
-      <!-- <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup" /> -->
+	  
+	  <!-- The following line is what's used in Hibernate 4 instead of a TransactionManagerLookup class -->
+	  <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform" />
+      <!-- <property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.BitronixJtaPlatform" /> -->
+	  <!-- <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup" /> -->
+      
+      <!-- BZ 841786: AS7/EAP 6/Hib 4 uses new (sequence) generators which seem to cause problems -->      
+      <property name="hibernate.id.new_generator_mappings" value="false" />
     </properties>        
   </persistence-unit>
     

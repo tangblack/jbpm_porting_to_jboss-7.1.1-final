@@ -21,7 +21,7 @@ where
         <attributes>
             <id name="processInstanceId">
                 <column name="InstanceId" />
-                <generated-value strategy="AUTO"/>
+                <generated-value strategy="SEQUENCE"/>
             </id>
             <basic name="processId" access="FIELD" />
             <basic name="startDate" access="FIELD" >

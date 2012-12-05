@@ -261,7 +261,7 @@
   <target name="download.designer" depends="download.designer.check" if="designer.not.available">
     <echo message="Getting Designer ..." />
     <mkdir dir="${install.home}/lib"/>
-    <get src="${designer.url}/designer-${designer.version}.war" dest="${install.home}/lib/designer-${designer.version}.war" />
+    <get src="${designer.url}/jbpm-designer-${designer.version}.war" dest="${install.home}/lib/designer-${designer.version}.war" />
   </target>
 
   <!-- Download jBPM and Drools Eclipse plugins -->
@@ -411,6 +411,10 @@
     <delete>
       <fileset dir="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/lib/" includes="dom4j*.jar" />
     </delete>
+  	
+    <copy file="${install.home}/hibernate-core-4.0.1.Final.jar"
+          tofile="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/lib/hibernate-core-4.0.1.Final.jar"
+          overwrite="true" />
   	
     <copy file="${install.home}/auth/users.properties"
           tofile="${install.home}/target/jbpm-gwt-console-server-war/WEB-INF/classes/users.properties"
